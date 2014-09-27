@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import se.jmkit.generatedata.Field;
+import se.jmkit.generatedata.FieldParameter;
 import se.jmkit.generatedata.GenerateData;
 import se.jmkit.rest.common.constants.Constant;
 import se.jmkit.rest.common.controller.IController;
@@ -88,9 +89,9 @@ public class PersonController extends AbstractController<Person> implements ICon
     @ResponseBody
     public List<Person> init(@PathVariable int count) {
         List<Person> persons = new ArrayList<Person>();
-        String[] firstnames = GenerateData.list(Field.FIRSTNAME, count);
-        String[] middlenames = GenerateData.list(Field.FIRSTNAME, count);
-        String[] lastnames = GenerateData.list(Field.LASTNAME, count);
+        String[] firstnames = GenerateData.list(new FieldParameter(Field.FIRSTNAME), count);
+        String[] middlenames = GenerateData.list(new FieldParameter(Field.FIRSTNAME), count);
+        String[] lastnames = GenerateData.list(new FieldParameter(Field.LASTNAME), count);
         for (int i = 0; i < count; i++) {
             persons.add(personService.create(new Person(firstnames[i], middlenames[i], lastnames[i])));
         }

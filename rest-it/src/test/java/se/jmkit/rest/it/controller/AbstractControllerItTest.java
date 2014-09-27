@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 
 import se.jmkit.generatedata.Field;
+import se.jmkit.generatedata.FieldParameter;
 import se.jmkit.generatedata.GenerateData;
 import se.jmkit.rest.client.http.RestURIBuilder;
 import se.jmkit.rest.client.http.controller.PersonControllerClient;
@@ -92,9 +93,9 @@ public abstract class AbstractControllerItTest {
 
     private static Person[] generatePersons(int count) {
         Person[] persons = new Person[count];
-        String firstnames[] = GenerateData.list(Field.FIRSTNAME, count);
-        String middlenames[] = GenerateData.list(Field.FIRSTNAME, count);
-        String lastnames[] = GenerateData.list(Field.LASTNAME, count);
+        String firstnames[] = GenerateData.list(new FieldParameter(Field.FIRSTNAME), count);
+        String middlenames[] = GenerateData.list(new FieldParameter(Field.FIRSTNAME), count);
+        String lastnames[] = GenerateData.list(new FieldParameter(Field.LASTNAME), count);
         for (int i = 0; i < count; i++) {
             persons[i] = new Person(new Long(i + 1), firstnames[i], middlenames[i], lastnames[i]);
         }
@@ -103,7 +104,7 @@ public abstract class AbstractControllerItTest {
 
     private static Team[] generateTeams(int count) {
         Team[] teams = new Team[count];
-        String firstnames[] = GenerateData.list(Field.FIRSTNAME, count);
+        String firstnames[] = GenerateData.list(new FieldParameter(Field.FIRSTNAME), count);
         for (int i = 0; i < count; i++) {
             teams[i] = new Team(new Long(i + 1), "Team " + firstnames[i]);
         }

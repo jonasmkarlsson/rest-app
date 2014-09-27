@@ -1,6 +1,5 @@
 package se.jmkit.rest.client;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -35,18 +34,17 @@ public class WowApplication extends Application {
 
     private RestURIBuilder restURIBuilder = new RestURIBuilder(schema, host, path);
 
-    private Collection<Person> companies;
     private Table contactList = new Table();
     private Form contactEditor = new Form();
     private HorizontalLayout bottomLeftCorner = new HorizontalLayout();
     private Button contactRemovalButton;
     private IndexedContainer companyDirectoryData = retrieveCompanyDirectoryData();
-    private List<Person> companyArray = null;
 
     boolean updateFlag = false;
 
     public enum Column {
-        id("Id"), first("First name"), last("Last name"); // , age("Age"), company("Company"), companyId("CompanyId");
+        // , age("Age"), company("Company"), companyId("CompanyId");
+        id("Id"), first("First name"), last("Last name");
         private static Column[] visible = { first, last };
         private String displayName;
 

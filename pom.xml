@@ -74,12 +74,10 @@
 					<artifactId>maven-jar-plugin</artifactId>
 					<version>2.4</version>
 				</plugin>
-
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.5.3.201107060350</version>
-					<!-- 0.6.4.201312101107 -->
+					<version>0.7.2.201409121644</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -87,10 +85,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<!-- configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration-->
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -102,9 +100,6 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<configuration>
-					<includes>*</includes>
-				</configuration>
 				<executions>
 					<execution>
 						<id>pre-test</id>
@@ -162,6 +157,8 @@
 				<artifactId>spring-data-jpa</artifactId>
 				<version>1.4.2.RELEASE</version>
 			</dependency>
+
+			<!-- Internal project modules -->
 			<dependency>
 				<groupId>se.jmkit</groupId>
 				<artifactId>rest-common</artifactId>
@@ -173,6 +170,7 @@
 				<version>${project.version}</version>
 			</dependency>
 
+			<!-- Third party for generating test data -->
 			<dependency>
 				<groupId>se.jmkit</groupId>
 				<artifactId>generate-data</artifactId>
@@ -209,7 +207,6 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

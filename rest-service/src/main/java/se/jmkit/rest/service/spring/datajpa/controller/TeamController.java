@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import se.jmkit.generatedata.Field;
+import se.jmkit.generatedata.FieldParameter;
 import se.jmkit.generatedata.GenerateData;
 import se.jmkit.rest.common.constants.Constant;
 import se.jmkit.rest.common.controller.IController;
@@ -88,7 +89,7 @@ public class TeamController extends AbstractController<Team> implements IControl
     @ResponseBody
     public List<Team> init(@PathVariable int count) {
         List<Team> teams = new ArrayList<Team>();
-        String[] names = GenerateData.list(Field.LASTNAME, count);
+        String[] names = GenerateData.list(new FieldParameter(Field.LASTNAME), count);
 
         for (int i = 0; i < count; i++) {
             teams.add(teamService.create(new Team("Team " + names[i])));

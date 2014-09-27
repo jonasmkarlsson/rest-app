@@ -170,7 +170,8 @@ public class WowApplication extends Application {
         public Field createField(final Item item, Object propertyId, Component uiContext) {
             Field result = null;
             result = super.createField(item, propertyId, uiContext);
-            if (Column.id.displayName.equals(propertyId)) { // || Column.companyId.displayName.equals(propertyId)) {
+            // || Column.companyId.displayName.equals(propertyId)) {
+            if (Column.id.displayName.equals(propertyId)) {
                 result.setVisible(false);
             }
             // }

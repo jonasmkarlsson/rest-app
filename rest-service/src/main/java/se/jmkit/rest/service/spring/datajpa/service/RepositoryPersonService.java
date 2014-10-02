@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +17,7 @@ import se.jmkit.rest.service.spring.datajpa.repository.PersonRepository;
  * @updated Jonas M Karlsson
  */
 @Service
-public class RepositoryPersonService implements PersonService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryPersonService.class);
+public class RepositoryPersonService extends BaseService<Person> implements PersonService {
 
     @Resource
     private PersonRepository personRepository;
@@ -29,22 +25,23 @@ public class RepositoryPersonService implements PersonService {
     @Transactional
     @Override
     public Person create(Person person) {
-        LOGGER.debug("Creating a new person with information: " + person);
+        logIsDebugEnabled("Creating a new person with information: " + person);
         return personRepository.save(person);
     }
 
     @Transactional(rollbackFor = EntityNotFoundException.class)
     @Override
-    public Person delete(Long personId) throws EntityNotFoundException {
-        LOGGER.debug("Deleting person with id: " + personId);
+    public Person delete(Long id) throws EntityNotFoundException {
+        logIsDebugEnabled("Deleting person with id: " + id);
 
-        Person personToDelete = personRepository.findOne(personId);
+        Person personToDelete = personRepository.findOne(id);
 
         if (personToDelete == null) {
-            LOGGER.debug("No person found with id: " + personId);
+            logIsDebugEnabled("Person with id '" + id + "' could not be found.");
             throw new EntityNotFoundException();
         }
-
+        
+        logIsDebugEnabled("Deleting person with id: " + id);
         personRepository.delete(personToDelete);
         return personToDelete;
     }
@@ -52,32 +49,30 @@ public class RepositoryPersonService implements PersonService {
     @Transactional(readOnly = true)
     @Override
     public List<Person> findAll() {
-        LOGGER.debug("Finding all persons");
+        logIsDebugEnabled("Finding all persons");
         return personRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     @Override
     public Person findById(Long id) {
-        LOGGER.debug("Finding person by id: " + id);
+        logIsDebugEnabled("Finding person with id: '" + id + "'");
         return personRepository.findOne(id);
     }
 
     @Transactional(rollbackFor = EntityNotFoundException.class)
     @Override
     public Person update(Person person) throws EntityNotFoundException {
-        LOGGER.debug("Updating person with information: " + person);
-
+        logIsDebugEnabled("Updating person with information: " + person);
         Person personToUpdate = personRepository.findOne(person.getId());
 
         if (personToUpdate == null) {
-            LOGGER.debug("No person found with id: " + person.getId());
+            logIsDebugEnabled("Person with id '" + person.getId() + "' could not be found.");
             throw new EntityNotFoundException();
         }
 
         personToUpdate.update(person);
         return personRepository.save(personToUpdate);
-        // return personToUpdate;
     }
 
     /**

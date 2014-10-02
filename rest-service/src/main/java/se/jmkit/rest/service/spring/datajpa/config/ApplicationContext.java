@@ -5,6 +5,7 @@ import java.util.Properties;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -45,6 +46,8 @@ import com.jolbox.bonecp.BoneCPDataSource;
 @PropertySource("classpath:application.properties")
 public class ApplicationContext {
 
+    private static final Logger LOGGER = Logger.getLogger(ApplicationContext.class);
+
     private static final String VIEW_RESOLVER_PREFIX = "/WEB-INF/jsp/";
     private static final String VIEW_RESOLVER_SUFFIX = ".jsp";
 
@@ -68,7 +71,7 @@ public class ApplicationContext {
     private Environment environment;
 
     public ApplicationContext() {
-        System.out.println("Initating ApplicationContext...");
+        LOGGER.info("Initating ApplicationContext...");
     }
 
     @Bean

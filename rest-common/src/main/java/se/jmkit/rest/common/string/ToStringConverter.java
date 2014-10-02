@@ -15,6 +15,10 @@ import java.util.Collection;
 public abstract class ToStringConverter {
     public final static String LINE_BREAK = System.getProperty("line.separator");
 
+    private ToStringConverter() {
+
+    }
+    
     // list of field names which should not be printed, typically JPA stuff
     private static final Collection<String> NO_PRINT = new ArrayList<String>();
     static {
@@ -35,7 +39,7 @@ public abstract class ToStringConverter {
      * @return A string representation of the object
      */
     public static final String toString(Object obj) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
 
         // fetch the class and name
         Class<? extends Object> clazz = obj.getClass();

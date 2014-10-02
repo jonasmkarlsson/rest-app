@@ -3,10 +3,7 @@ package se.jmkit.rest.service.spring.datajpa.service;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.persistence.EntityNotFoundException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,32 +16,29 @@ import se.jmkit.rest.service.spring.datajpa.repository.TeamRepository;
  * @author Jonas M Karlsson
  */
 @Service
-public class RepositoryTeamService implements TeamService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryTeamService.class);
+public class RepositoryTeamService extends BaseService<Team> implements TeamService {
 
     @Resource
     private TeamRepository entityRepository;
 
     @Transactional
     @Override
-    public Team create(Team entity) {
-        LOGGER.debug("Creating a new entity with information: " + entity);
-        return entityRepository.save(entity);
+    public Team create(Team team) {
+        logIsDebugEnabled("Creating a new team with information: " + team);
+        return entityRepository.save(team);
     }
 
     @Transactional(rollbackFor = EntityNotFoundException.class)
     @Override
-    public Team delete(Long entityId) throws EntityNotFoundException {
-        LOGGER.debug("Deleting entity with id: " + entityId);
-
-        Team entityToDelete = entityRepository.findOne(entityId);
+    public Team delete(Long id) throws EntityNotFoundException {
+        logIsDebugEnabled("Deleting team with id: " + id);
+        Team entityToDelete = entityRepository.findOne(id);
 
         if (entityToDelete == null) {
-            LOGGER.debug("No entity found with id: " + entityId);
+            logIsDebugEnabled("Team with id '" + id + "' could not be found.");
             throw new EntityNotFoundException();
         }
-
+        logIsDebugEnabled("Deleting team with id: " + id);
         entityRepository.delete(entityToDelete);
         return entityToDelete;
     }
@@ -52,30 +46,30 @@ public class RepositoryTeamService implements TeamService {
     @Transactional(readOnly = true)
     @Override
     public List<Team> findAll() {
-        LOGGER.debug("Finding all entitys");
+        logIsDebugEnabled("Finding all teams");
         return entityRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     @Override
     public Team findById(Long id) {
-        LOGGER.debug("Finding entity by id: " + id);
+        logIsDebugEnabled("Finding team with id: '" + id + "'");
         return entityRepository.findOne(id);
     }
 
     @Transactional(rollbackFor = EntityNotFoundException.class)
     @Override
-    public Team update(Team entity) throws EntityNotFoundException {
-        LOGGER.debug("Updating entity with information: " + entity);
+    public Team update(Team team) throws EntityNotFoundException {
+        logIsDebugEnabled("Updating team with information: " + team);
 
-        Team entityToUpdate = entityRepository.findOne(entity.getId());
+        Team entityToUpdate = entityRepository.findOne(team.getId());
 
         if (entityToUpdate == null) {
-            LOGGER.debug("No entity found with id: " + entity.getId());
+            logIsDebugEnabled("Team with id '" + team.getId() + "' could not be found.");
             throw new EntityNotFoundException();
         }
 
-        entityToUpdate.update(entity);
+        entityToUpdate.update(team);
         return entityRepository.save(entityToUpdate);
     }
 

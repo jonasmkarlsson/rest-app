@@ -58,8 +58,8 @@ public class PersonController extends AbstractController<Person> implements ICon
         try {
             person = personService.update(entity);
         } catch (EntityNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logIsDebugEnabled(getMessageIdCouldNotBeFound(entity.getId()));
+            //e.logEntityNotFoundException(logger, this.getClass().getName(), entity.getId());
         }
         return person;
     }
@@ -72,8 +72,8 @@ public class PersonController extends AbstractController<Person> implements ICon
         try {
             person = personService.delete(id);
         } catch (EntityNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logIsDebugEnabled(getMessageIdCouldNotBeFound(id));
+            // e.logEntityNotFoundException(logger, this.getClass().getName(), id);
         }
         return person;
     }
@@ -104,9 +104,8 @@ public class PersonController extends AbstractController<Person> implements ICon
         List<Person> persons = this.list();
         List<String> sqls = new ArrayList<String>();
         for (Person person : persons) {
-            String sql = "insert into person(id, firstname, lastname, creation_time, modification_time, version) values (" + person.getId() + ", '"
-                    + person.getFirstname() + "', '" + person.getLastname() + "', '" + person.getCreationTime() + "', '" + person.getModificationTime() + "', "
-                    + person.getVersion();
+            String sql = "insert into person(id, firstname, lastname, creation_time, modification_time, version) values (" + person.getId() + ", '" + person.getFirstname()
+                    + "', '" + person.getLastname() + "', '" + person.getCreationTime() + "', '" + person.getModificationTime() + "', " + person.getVersion();
             sqls.add(sql);
         }
         return sqls;

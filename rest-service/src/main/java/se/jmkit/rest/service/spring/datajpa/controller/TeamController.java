@@ -58,8 +58,8 @@ public class TeamController extends AbstractController<Team> implements IControl
         try {
             team = teamService.update(entity);
         } catch (EntityNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logIsDebugEnabled(getMessageIdCouldNotBeFound(entity.getId()));
+            // e.logEntityNotFoundException(logger, this.getClass().getName(), entity.getId());
         }
         return team;
     }
@@ -72,8 +72,8 @@ public class TeamController extends AbstractController<Team> implements IControl
         try {
             team = teamService.delete(id);
         } catch (EntityNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logIsDebugEnabled(getMessageIdCouldNotBeFound(id));
+            // e.logEntityNotFoundException(logger, this.getClass().getName(), id);
         }
         return team;
     }

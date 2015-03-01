@@ -50,7 +50,7 @@ public class TeamControllerClient extends AbstractControllerClient implements IC
     }
 
     @Override
-    public JSONWrapperEntity<Team> JSONWrapperList() {
+    public JSONWrapperEntity<Team> jSONWrapperList() {
         return null;
     }
 

@@ -50,7 +50,7 @@ public class PersonControllerClient extends AbstractControllerClient implements 
     }
 
     @Override
-    public JSONWrapperEntity<Person> JSONWrapperList() {
+    public JSONWrapperEntity<Person> jSONWrapperList() {
         return null;
     }
 

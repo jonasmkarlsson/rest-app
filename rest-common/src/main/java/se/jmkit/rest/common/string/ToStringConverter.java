@@ -8,13 +8,13 @@ import java.util.Collection;
 
 /**
  * Helper class that uses Reflection to create a String representation of an object. The String is pretty-formatted and contains all the properties and their
- * values in the object, its references and superclasses. This is used for logging and debugging.
+ * values in the object, its references and super classes. This is used for logging and debugging.
  * 
  * @author Gareth Woodham, Capgemini Sweden AB
  */
 public abstract class ToStringConverter {
-    public final static String LINE_BREAK = System.getProperty("line.separator");
-    public final static char TAB = '\t';
+    public static final String LINE_BREAK = System.getProperty("line.separator");
+    public static final char TAB = '\t';
 
     private ToStringConverter() {
 
@@ -39,6 +39,7 @@ public abstract class ToStringConverter {
      * @param obj The object
      * @return A string representation of the object
      */
+    @SuppressWarnings("all")
     public static final String toString(Object obj) {
         StringBuilder buf = new StringBuilder();
 

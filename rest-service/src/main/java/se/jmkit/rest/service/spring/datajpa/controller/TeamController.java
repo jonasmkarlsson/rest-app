@@ -118,7 +118,7 @@ public class TeamController extends AbstractController<Team> implements IControl
     @Override
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
-    public JSONWrapperEntity<Team> JSONWrapperList() {
+    public JSONWrapperEntity<Team> jSONWrapperList() {
         JSONWrapperEntity<Team> jSONWrapperEntity = new JSONWrapperEntity<Team>();
         jSONWrapperEntity.setEntities(this.list());
         jSONWrapperEntity.setClazz(Team.class.getName());

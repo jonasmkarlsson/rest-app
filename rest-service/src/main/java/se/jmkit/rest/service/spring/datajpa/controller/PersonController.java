@@ -129,7 +129,7 @@ public class PersonController extends AbstractController<Person> implements ICon
     @Override
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
-    public JSONWrapperEntity<Person> JSONWrapperList() {
+    public JSONWrapperEntity<Person> jSONWrapperList() {
         JSONWrapperEntity<Person> jSONWrapperEntity = new JSONWrapperEntity<Person>();
         jSONWrapperEntity.setEntities(this.list());
         jSONWrapperEntity.setClazz(Person.class.getName());

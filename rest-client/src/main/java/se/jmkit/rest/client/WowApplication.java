@@ -43,7 +43,6 @@ public class WowApplication extends Application {
     boolean updateFlag = false;
 
     public enum Column {
-        // , age("Age"), company("Company"), companyId("CompanyId");
         ID("Id"), FIRST("First name"), LAST("Last name");
         private static Column[] visible = { FIRST, LAST };
         private String displayName;
@@ -170,11 +169,9 @@ public class WowApplication extends Application {
         public Field createField(final Item item, Object propertyId, Component uiContext) {
             Field result = null;
             result = super.createField(item, propertyId, uiContext);
-            // || Column.companyId.displayName.equals(propertyId)) {
             if (Column.ID.displayName.equals(propertyId)) {
                 result.setVisible(false);
             }
-            // }
             result.addListener(new Property.ValueChangeListener() {
                 public void valueChange(ValueChangeEvent event) {
                     if (!updateFlag && isValid(item)) {

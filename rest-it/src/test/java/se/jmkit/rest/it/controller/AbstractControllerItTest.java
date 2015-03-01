@@ -5,9 +5,10 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import se.jmkit.generatedata.Field;
-import se.jmkit.generatedata.FieldParameter;
-import se.jmkit.generatedata.GenerateData;
+import se.jmkit.generatedata.Generate;
+import se.jmkit.generatedata.column.AbstractColumn;
+import se.jmkit.generatedata.column.Firstname;
+import se.jmkit.generatedata.column.Lastname;
 import se.jmkit.rest.client.http.RestURIBuilder;
 import se.jmkit.rest.client.http.controller.PersonControllerClient;
 import se.jmkit.rest.client.http.controller.TeamControllerClient;
@@ -29,8 +30,8 @@ public abstract class AbstractControllerItTest {
 
     public static RestURIBuilder restURIBuilder = new RestURIBuilder(schema, host, baseUrl);
 
-    public static PersonControllerClient personControllerClient = new PersonControllerClient(restURIBuilder, Constant.PERSON);
-    public static TeamControllerClient teamControllerClient = new TeamControllerClient(restURIBuilder, Constant.TEAM);
+    public static PersonControllerClient personControllerClient = new PersonControllerClient(restURIBuilder, Constant.TABLE_PERSON);
+    public static TeamControllerClient teamControllerClient = new TeamControllerClient(restURIBuilder, Constant.TABLE_TEAM);
 
     public static Person[] persons;
     public static Team[] teams;
@@ -92,10 +93,12 @@ public abstract class AbstractControllerItTest {
     }
 
     private static Person[] generatePersons(int count) {
+        AbstractColumn[] firstnameColumn = { new Firstname() };
+        AbstractColumn[] lastnameColumn = { new Lastname() };
         Person[] persons = new Person[count];
-        String firstnames[] = GenerateData.list(new FieldParameter(Field.FIRSTNAME), count);
-        String middlenames[] = GenerateData.list(new FieldParameter(Field.FIRSTNAME), count);
-        String lastnames[] = GenerateData.list(new FieldParameter(Field.LASTNAME), count);
+        String firstnames[] = Generate.list(firstnameColumn, count, "");
+        String middlenames[] = Generate.list(firstnameColumn, count, "");
+        String lastnames[] = Generate.list(lastnameColumn, count, "");
         for (int i = 0; i < count; i++) {
             persons[i] = new Person(new Long(i + 1), firstnames[i], middlenames[i], lastnames[i]);
         }
@@ -104,9 +107,10 @@ public abstract class AbstractControllerItTest {
 
     private static Team[] generateTeams(int count) {
         Team[] teams = new Team[count];
-        String firstnames[] = GenerateData.list(new FieldParameter(Field.FIRSTNAME), count);
+        AbstractColumn[] firstnameColumn = { new Firstname() };
+        String teamnames[] = Generate.list(firstnameColumn, count, "");
         for (int i = 0; i < count; i++) {
-            teams[i] = new Team(new Long(i + 1), "Team " + firstnames[i]);
+            teams[i] = new Team(new Long(i + 1), "Team " + teamnames[i]);
         }
         return teams;
     }

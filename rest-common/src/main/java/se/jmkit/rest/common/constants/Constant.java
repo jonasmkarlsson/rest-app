@@ -13,8 +13,8 @@ public class Constant {
     private Constant() {
     }
 
-    public static final String PERSON = "person";
-    public static final String TEAM = "team";
+    public static final String TABLE_PERSON = "person";
+    public static final String TABLE_TEAM = "team";
     public static final String COLUMN_ID = "id";
 
     public static final int PRIME = 31;

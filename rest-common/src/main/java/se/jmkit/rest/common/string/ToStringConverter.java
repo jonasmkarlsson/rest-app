@@ -14,11 +14,12 @@ import java.util.Collection;
  */
 public abstract class ToStringConverter {
     public final static String LINE_BREAK = System.getProperty("line.separator");
+    public final static char TAB = '\t';
 
     private ToStringConverter() {
 
     }
-    
+
     // list of field names which should not be printed, typically JPA stuff
     private static final Collection<String> NO_PRINT = new ArrayList<String>();
     static {
@@ -45,12 +46,10 @@ public abstract class ToStringConverter {
         Class<? extends Object> clazz = obj.getClass();
         String className = clazz.getSimpleName();
 
-        buf.append(className);
-        buf.append(LINE_BREAK);
+        buf.append(className + " [");
 
         // iterate up through any superclasses
         do {
-
             // fetch all the fields for this class
             Field[] fields = clazz.getDeclaredFields();
 
@@ -59,7 +58,6 @@ public abstract class ToStringConverter {
 
             // loop through the fields
             for (Field field : fields) {
-
                 // skip constants (normally declared 'static final')
                 boolean isStatic = Modifier.isStatic(field.getModifiers());
                 boolean isFinal = Modifier.isFinal(field.getModifiers());
@@ -86,20 +84,16 @@ public abstract class ToStringConverter {
                     continue;
                 }
 
-                buf.append("    ");
-                buf.append(field.getName());
-                buf.append("=");
                 try {
                     Object thisObj = field.get(obj);
-                    buf.append(thisObj.toString());
+                    buf.append(field.getName() + "=" + thisObj.toString());
                 } catch (Exception e) {
                     buf.append(e.getMessage());
                 }
-                buf.append(LINE_BREAK);
+                buf.append(",");
             }
             clazz = clazz.getSuperclass();
         } while (clazz != null && clazz != Object.class);
-
-        return buf.toString();
+        return buf.substring(0, buf.length() - 1).toString() + "]";
     }
 }

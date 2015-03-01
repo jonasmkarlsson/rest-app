@@ -13,6 +13,8 @@ import org.junit.Test;
 import se.jmkit.rest.common.entity.Person;
 
 public class PersonTest {
+    private final String LINE_BREAK = System.getProperty("line.separator");
+    private final char TAB = '\t';
 
     private Long id = new Long(1);
     private String firstname = "firstname";
@@ -28,7 +30,7 @@ public class PersonTest {
 
     private static final String MIDDLE_NAME = "E";
     private static final String MIDDLE_NAME_UPDATED = "E!";
-    
+
     private static final String LAST_NAME = "Bar";
     private static final String LAST_NAME_UPDATED = "Bar1";
 
@@ -73,17 +75,6 @@ public class PersonTest {
         assertEquals(expectedName, person2.getName());
     }
 
-    private String constructName(final String firstname, final String middlename, final String lastname) {
-        StringBuilder name = new StringBuilder();
-        name.append(firstname);
-        name.append(" ");
-        name.append(middlename);
-        name.append(" ");
-        name.append(lastname);
-
-        return name.toString();
-    }
-
     @Test
     public void prePersist() {
         person2.prePersist();
@@ -119,5 +110,18 @@ public class PersonTest {
         assertEquals(FIRST_NAME_UPDATED, person2.getFirstname());
         assertEquals(MIDDLE_NAME_UPDATED, person2.getMiddlename());
         assertEquals(LAST_NAME_UPDATED, person2.getLastname());
+    }
+
+    @Test
+    public void testToString() {
+        String expectedToString = "Person [firstname=" + person.getFirstname() + ",middlename=" + person.getMiddlename() + ",lastname=" + person.getLastname() + ",id="
+                + person.getId() + "]";
+        assertEquals(expectedToString, person.toString());
+    }
+
+    private String constructName(final String firstname, final String middlename, final String lastname) {
+        StringBuilder name = new StringBuilder();
+        name.append(firstname).append(" ").append(middlename).append(" ").append(lastname);
+        return name.toString();
     }
 }

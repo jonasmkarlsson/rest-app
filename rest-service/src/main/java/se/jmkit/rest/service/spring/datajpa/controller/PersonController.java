@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import se.jmkit.generatedata.Field;
-import se.jmkit.generatedata.FieldParameter;
-import se.jmkit.generatedata.GenerateData;
+import se.jmkit.generatedata.Generate;
+import se.jmkit.generatedata.column.AbstractColumn;
+import se.jmkit.generatedata.column.Firstname;
+import se.jmkit.generatedata.column.Lastname;
 import se.jmkit.rest.common.constants.Constant;
 import se.jmkit.rest.common.controller.IController;
 import se.jmkit.rest.common.entity.JSONWrapperEntity;
@@ -30,8 +33,10 @@ import se.jmkit.rest.service.spring.datajpa.service.PersonService;
  */
 
 @Controller
-@RequestMapping(Constant.PERSON)
+@RequestMapping(Constant.TABLE_PERSON)
 public class PersonController extends AbstractController<Person> implements IController<Person> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PersonController.class);
 
     @Resource
     private PersonService personService;
@@ -58,8 +63,7 @@ public class PersonController extends AbstractController<Person> implements ICon
         try {
             person = personService.update(entity);
         } catch (EntityNotFoundException e) {
-            logIsDebugEnabled(getMessageIdCouldNotBeFound(entity.getId()));
-            //e.logEntityNotFoundException(logger, this.getClass().getName(), entity.getId());
+            LOGGER.error(getMessageIdCouldNotBeFound(entity.getId()), e);
         }
         return person;
     }
@@ -72,8 +76,7 @@ public class PersonController extends AbstractController<Person> implements ICon
         try {
             person = personService.delete(id);
         } catch (EntityNotFoundException e) {
-            logIsDebugEnabled(getMessageIdCouldNotBeFound(id));
-            // e.logEntityNotFoundException(logger, this.getClass().getName(), id);
+            LOGGER.error(getMessageIdCouldNotBeFound(id), e);
         }
         return person;
     }
@@ -89,9 +92,11 @@ public class PersonController extends AbstractController<Person> implements ICon
     @ResponseBody
     public List<Person> init(@PathVariable int count) {
         List<Person> persons = new ArrayList<Person>();
-        String[] firstnames = GenerateData.list(new FieldParameter(Field.FIRSTNAME), count);
-        String[] middlenames = GenerateData.list(new FieldParameter(Field.FIRSTNAME), count);
-        String[] lastnames = GenerateData.list(new FieldParameter(Field.LASTNAME), count);
+        AbstractColumn[] firstnameColumn = { new Firstname() };
+        AbstractColumn[] lastnameColumn = { new Lastname() };
+        String[] firstnames = Generate.list(firstnameColumn, count, "");
+        String[] middlenames = Generate.list(firstnameColumn, count, "");
+        String[] lastnames = Generate.list(lastnameColumn, count, "");
         for (int i = 0; i < count; i++) {
             persons.add(personService.create(new Person(firstnames[i], middlenames[i], lastnames[i])));
         }
@@ -124,7 +129,7 @@ public class PersonController extends AbstractController<Person> implements ICon
     @Override
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
-    public JSONWrapperEntity<Person> list2() {
+    public JSONWrapperEntity<Person> JSONWrapperList() {
         JSONWrapperEntity<Person> jSONWrapperEntity = new JSONWrapperEntity<Person>();
         jSONWrapperEntity.setEntities(this.list());
         jSONWrapperEntity.setClazz(Person.class.getName());

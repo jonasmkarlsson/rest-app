@@ -35,7 +35,7 @@ public class RestURIBuilder {
         try {
             uri = new URIBuilder().setScheme(schema).setHost(host).setPath(path).build();
         } catch (URISyntaxException e) {
-            LOGGER.debug(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
         }
         return uri;
     }

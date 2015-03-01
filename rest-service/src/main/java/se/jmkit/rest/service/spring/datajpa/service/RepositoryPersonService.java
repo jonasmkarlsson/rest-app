@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,8 @@ import se.jmkit.rest.service.spring.datajpa.repository.PersonRepository;
  */
 @Service
 public class RepositoryPersonService extends BaseService<Person> implements PersonService {
+
+    private static final Logger LOGGER = Logger.getLogger(RepositoryPersonService.class);
 
     @Resource
     private PersonRepository personRepository;
@@ -40,7 +43,7 @@ public class RepositoryPersonService extends BaseService<Person> implements Pers
             logIsDebugEnabled("Person with id '" + id + "' could not be found.");
             throw new EntityNotFoundException();
         }
-        
+
         logIsDebugEnabled("Deleting person with id: " + id);
         personRepository.delete(personToDelete);
         return personToDelete;
@@ -73,6 +76,12 @@ public class RepositoryPersonService extends BaseService<Person> implements Pers
 
         personToUpdate.update(person);
         return personRepository.save(personToUpdate);
+    }
+
+    private void logIsDebugEnabled(final String message) {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(message);
+        }
     }
 
     /**

@@ -13,6 +13,7 @@ import javax.persistence.Version;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import se.jmkit.rest.common.string.NonPrintable;
 import se.jmkit.rest.common.string.ToStringConverter;
 
 @MappedSuperclass
@@ -21,15 +22,19 @@ public abstract class AbstractEntity<T> extends AbstractPersistable<Long> implem
 
     private static final long serialVersionUID = 9213828076223625203L;
 
+    @NonPrintable
     @Column(name = "creation_time", nullable = false)
     private Date creationTime;
 
+    @NonPrintable
     @Column(name = "modification_time", nullable = false)
     private Date modificationTime;
 
+    @NonPrintable
     @Version
     private long version = 0;
 
+    @NonPrintable
     @Transient
     private SecurityAccess securityAccess;
 
@@ -64,7 +69,7 @@ public abstract class AbstractEntity<T> extends AbstractPersistable<Long> implem
     public long getVersion() {
         return version;
     }
-    
+
     /**
      * @return the securityAccess
      */
@@ -110,6 +115,7 @@ public abstract class AbstractEntity<T> extends AbstractPersistable<Long> implem
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
+    @SuppressWarnings("all")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

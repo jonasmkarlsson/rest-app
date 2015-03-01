@@ -17,5 +17,5 @@ public interface IController<T extends AbstractEntity<T>> {
 
     List<T> list();
 
-    JSONWrapperEntity<T> list2();
+    JSONWrapperEntity<T> JSONWrapperList();
 }

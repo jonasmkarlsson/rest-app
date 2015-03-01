@@ -26,21 +26,4 @@ public class EntityNotFoundException extends Exception {
         super(message, cause);
     }
 
-//    public EntityNotFoundException(Logger logger, String name, Long id) {
-//        this();
-//        logEntityNotFoundException(logger, name, id);
-//    }
-//
-//    public void logEntityNotFoundException(Logger logger, String name, Long id) {
-//        if (logger.isDebugEnabled()) {
-//            logger.debug(getMessage(name, id), this);
-//        } else {
-//            logger.info(getMessage(name, id));
-//        }
-//    }
-//
-//    public String getMessageIdCouldNotBeFound(String name, Long id) {
-//        return name + " with id '" + id + "' could not be found.";
-//    }
-
 }

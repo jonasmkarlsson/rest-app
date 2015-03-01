@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,8 @@ import se.jmkit.rest.service.spring.datajpa.repository.TeamRepository;
  */
 @Service
 public class RepositoryTeamService extends BaseService<Team> implements TeamService {
+
+    private static final Logger LOGGER = Logger.getLogger(RepositoryTeamService.class);
 
     @Resource
     private TeamRepository entityRepository;
@@ -71,6 +74,12 @@ public class RepositoryTeamService extends BaseService<Team> implements TeamServ
 
         entityToUpdate.update(team);
         return entityRepository.save(entityToUpdate);
+    }
+
+    private void logIsDebugEnabled(final String message) {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(message);
+        }
     }
 
     /**

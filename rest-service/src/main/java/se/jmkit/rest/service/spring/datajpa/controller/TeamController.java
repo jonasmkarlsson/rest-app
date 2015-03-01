@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import se.jmkit.generatedata.Field;
-import se.jmkit.generatedata.FieldParameter;
-import se.jmkit.generatedata.GenerateData;
+import se.jmkit.generatedata.Generate;
+import se.jmkit.generatedata.column.AbstractColumn;
+import se.jmkit.generatedata.column.Lastname;
 import se.jmkit.rest.common.constants.Constant;
 import se.jmkit.rest.common.controller.IController;
 import se.jmkit.rest.common.entity.JSONWrapperEntity;
@@ -30,8 +32,10 @@ import se.jmkit.rest.service.spring.datajpa.service.TeamService;
  */
 
 @Controller
-@RequestMapping(Constant.TEAM)
+@RequestMapping(Constant.TABLE_TEAM)
 public class TeamController extends AbstractController<Team> implements IController<Team> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeamController.class);
 
     @Resource
     private TeamService teamService;
@@ -58,8 +62,7 @@ public class TeamController extends AbstractController<Team> implements IControl
         try {
             team = teamService.update(entity);
         } catch (EntityNotFoundException e) {
-            logIsDebugEnabled(getMessageIdCouldNotBeFound(entity.getId()));
-            // e.logEntityNotFoundException(logger, this.getClass().getName(), entity.getId());
+            LOGGER.error(getMessageIdCouldNotBeFound(entity.getId()), e);
         }
         return team;
     }
@@ -72,8 +75,7 @@ public class TeamController extends AbstractController<Team> implements IControl
         try {
             team = teamService.delete(id);
         } catch (EntityNotFoundException e) {
-            logIsDebugEnabled(getMessageIdCouldNotBeFound(id));
-            // e.logEntityNotFoundException(logger, this.getClass().getName(), id);
+            LOGGER.error(getMessageIdCouldNotBeFound(id), e);
         }
         return team;
     }
@@ -89,7 +91,8 @@ public class TeamController extends AbstractController<Team> implements IControl
     @ResponseBody
     public List<Team> init(@PathVariable int count) {
         List<Team> teams = new ArrayList<Team>();
-        String[] names = GenerateData.list(new FieldParameter(Field.LASTNAME), count);
+        AbstractColumn[] lastnameColumn = { new Lastname() };
+        String[] names = Generate.list(lastnameColumn, count, "");
 
         for (int i = 0; i < count; i++) {
             teams.add(teamService.create(new Team("Team " + names[i])));
@@ -100,7 +103,7 @@ public class TeamController extends AbstractController<Team> implements IControl
     @RequestMapping(value = "export", method = RequestMethod.GET)
     @ResponseBody
     public void export() {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -115,7 +118,7 @@ public class TeamController extends AbstractController<Team> implements IControl
     @Override
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
-    public JSONWrapperEntity<Team> list2() {
+    public JSONWrapperEntity<Team> JSONWrapperList() {
         JSONWrapperEntity<Team> jSONWrapperEntity = new JSONWrapperEntity<Team>();
         jSONWrapperEntity.setEntities(this.list());
         jSONWrapperEntity.setClazz(Team.class.getName());

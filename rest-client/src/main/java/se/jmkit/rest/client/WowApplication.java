@@ -44,8 +44,8 @@ public class WowApplication extends Application {
 
     public enum Column {
         // , age("Age"), company("Company"), companyId("CompanyId");
-        id("Id"), first("First name"), last("Last name");
-        private static Column[] visible = { first, last };
+        ID("Id"), FIRST("First name"), LAST("Last name");
+        private static Column[] visible = { FIRST, LAST };
         private String displayName;
 
         public static String[] getVisibleColumnNames() {
@@ -112,7 +112,7 @@ public class WowApplication extends Application {
         contactRemovalButton = new Button("-", new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
                 final Item item = contactList.getItem(contactList.getValue());
-                final String personId = (String) item.getItemProperty(Column.id.displayName).getValue();
+                final String personId = (String) item.getItemProperty(Column.ID.displayName).getValue();
                 contactList.removeItem(contactList.getValue());
                 contactList.select(null);
             }
@@ -171,7 +171,7 @@ public class WowApplication extends Application {
             Field result = null;
             result = super.createField(item, propertyId, uiContext);
             // || Column.companyId.displayName.equals(propertyId)) {
-            if (Column.id.displayName.equals(propertyId)) {
+            if (Column.ID.displayName.equals(propertyId)) {
                 result.setVisible(false);
             }
             // }
@@ -179,7 +179,7 @@ public class WowApplication extends Application {
                 public void valueChange(ValueChangeEvent event) {
                     if (!updateFlag && isValid(item)) {
                         updateFlag = true;
-                        getMainWindow().showNotification("Updated Record: " + (String) item.getItemProperty(Column.id.displayName).getValue());
+                        getMainWindow().showNotification("Updated Record: " + (String) item.getItemProperty(Column.ID.displayName).getValue());
                         WowApplication.this.updateDB(item);
                         updateFlag = false;
                     }
@@ -190,8 +190,8 @@ public class WowApplication extends Application {
     }
 
     public boolean isValid(Item item) {
-        String first = (String) item.getItemProperty(Column.first.displayName).getValue();
-        String last = (String) item.getItemProperty(Column.last.displayName).getValue();
+        String first = (String) item.getItemProperty(Column.FIRST.displayName).getValue();
+        String last = (String) item.getItemProperty(Column.LAST.displayName).getValue();
         return !"".equals(first) && !"".equals(last);
     }
 
@@ -206,18 +206,18 @@ public class WowApplication extends Application {
             Object id = ic.addItem();
             StringTokenizer tokenizer = new StringTokenizer(person.getName());
             if (tokenizer.hasMoreElements()) {
-                ic.getContainerProperty(id, Column.first.displayName).setValue(tokenizer.nextToken());
+                ic.getContainerProperty(id, Column.FIRST.displayName).setValue(tokenizer.nextToken());
                 if (tokenizer.hasMoreElements()) {
-                    ic.getContainerProperty(id, Column.last.displayName).setValue(tokenizer.nextToken());
+                    ic.getContainerProperty(id, Column.LAST.displayName).setValue(tokenizer.nextToken());
                 }
             }
-            ic.getContainerProperty(id, Column.id.displayName).setValue(person.getId());
+            ic.getContainerProperty(id, Column.ID.displayName).setValue(person.getId());
         }
         return ic;
     }
 
     public void updateDB(final Item item) {
-        String sid = (String) item.getItemProperty(Column.id.displayName).getValue();
+        String sid = (String) item.getItemProperty(Column.ID.displayName).getValue();
         if (!"".equals(sid)) {
             Long id = Long.parseLong(sid);
             Person person = getPerson(id);
@@ -227,24 +227,24 @@ public class WowApplication extends Application {
             populatePerson(item, person);
 
             Person newPerson = createPersion(person);
-            item.getItemProperty(Column.id.displayName).setValue(newPerson.getId());
+            item.getItemProperty(Column.ID.displayName).setValue(newPerson.getId());
         }
     }
 
     private List<Person> getPersons() {
-        return new PersonControllerClient(restURIBuilder, "/" + Constant.PERSON).list();
+        return new PersonControllerClient(restURIBuilder, "/" + Constant.TABLE_PERSON).list();
     }
 
     private Person createPersion(Person person) {
-        return new PersonControllerClient(restURIBuilder, "/" + Constant.PERSON).create(person);
+        return new PersonControllerClient(restURIBuilder, "/" + Constant.TABLE_PERSON).create(person);
     }
 
     private Person getPerson(Long id) {
-        return new PersonControllerClient(restURIBuilder, "/" + Constant.PERSON).read(id);
+        return new PersonControllerClient(restURIBuilder, "/" + Constant.TABLE_PERSON).read(id);
     }
 
     private void populatePerson(Item item, Person person) {
-        person.setFirstname((String) item.getItemProperty(Column.first.displayName).getValue());
-        person.setLastname((String) item.getItemProperty(Column.last.displayName).getValue());
+        person.setFirstname((String) item.getItemProperty(Column.FIRST.displayName).getValue());
+        person.setLastname((String) item.getItemProperty(Column.LAST.displayName).getValue());
     }
 }

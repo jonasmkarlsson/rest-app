@@ -4,6 +4,8 @@ import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
+import se.jmkit.rest.common.string.ToStringConverter;
+
 @JsonPropertyOrder({ "create", "read", "update", "delete" })
 public class SecurityAccess {
 
@@ -109,7 +111,7 @@ public class SecurityAccess {
      */
     @Override
     public String toString() {
-        return "SecurityAccess [create=" + create + ", read=" + read + ", update=" + update + ", delete=" + delete + "]";
+        return ToStringConverter.toString(this);
     }
 
     /*
@@ -118,6 +120,7 @@ public class SecurityAccess {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
+    @SuppressWarnings("all")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

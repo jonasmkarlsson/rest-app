@@ -29,7 +29,6 @@
 
 		<!-- Sonar -->
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<!-- The destination file for the code coverage report has to be set to 
 			the same value in the parent pom and in each module pom. Then JaCoCo will 
 			add up information in the same report, so that, it will give the cross-module 
@@ -213,4 +212,18 @@
 		</dependency>
 	</dependencies>
 
+	<name>REST Application</name>
+	<organization>
+		<name>JMK IT., Sweden</name>
+	</organization>
+	<scm>
+		<url>https://github.com/jonasmkarlsson/rest-app</url>
+		<connection>scm:git:git@github.com:jonasmkarlsson/rest-app.git</connection>
+		<developerConnection>scm:git:git@github.com:jonasmkarlsson/rest-app.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	<issueManagement>
+		<url>https://github.com/jonasmkarlsson/rest-app/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
 </project>

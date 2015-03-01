@@ -50,8 +50,7 @@ public class TeamControllerClient extends AbstractControllerClient implements IC
     }
 
     @Override
-    public JSONWrapperEntity<Team> list2() {
-        // TODO Auto-generated method stub
+    public JSONWrapperEntity<Team> JSONWrapperList() {
         return null;
     }
 

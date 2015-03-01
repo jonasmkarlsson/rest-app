@@ -8,7 +8,7 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import se.jmkit.rest.common.constants.Constant;
 
 @Entity
-@Table(name = Constant.TEAM)
+@Table(name = Constant.TABLE_TEAM)
 @JsonPropertyOrder({ "id", "name" })
 public class Team extends AbstractEntity<Team> {
 

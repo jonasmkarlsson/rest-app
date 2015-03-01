@@ -50,8 +50,7 @@ public class PersonControllerClient extends AbstractControllerClient implements 
     }
 
     @Override
-    public JSONWrapperEntity<Person> list2() {
-        // TODO Auto-generated method stub
+    public JSONWrapperEntity<Person> JSONWrapperList() {
         return null;
     }
 

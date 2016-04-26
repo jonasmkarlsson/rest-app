@@ -203,7 +203,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>se.jmkit</groupId>
+			<groupId>org.jonasmkarlsson</groupId>
 			<artifactId>generate-data</artifactId>
 		</dependency>
 		<dependency>

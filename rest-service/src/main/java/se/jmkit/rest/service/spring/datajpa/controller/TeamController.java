@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import se.jmkit.generatedata.Generate;
-import se.jmkit.generatedata.column.AbstractColumn;
-import se.jmkit.generatedata.column.Lastname;
+import org.jonasmkarlsson.generatedata.Generate;
+import org.jonasmkarlsson.generatedata.column.AbstractColumn;
+import org.jonasmkarlsson.generatedata.column.Lastname;
 import se.jmkit.rest.common.constants.Constant;
 import se.jmkit.rest.common.controller.IController;
 import se.jmkit.rest.common.entity.JSONWrapperEntity;
@@ -91,7 +91,7 @@ public class TeamController extends AbstractController<Team> implements IControl
     @ResponseBody
     public List<Team> init(@PathVariable int count) {
         List<Team> teams = new ArrayList<Team>();
-        AbstractColumn[] lastnameColumn = { new Lastname() };
+        AbstractColumn[] lastnameColumn = { new Lastname("") };
         String[] names = Generate.list(lastnameColumn, count, "");
 
         for (int i = 0; i < count; i++) {

@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import se.jmkit.generatedata.Generate;
-import se.jmkit.generatedata.column.AbstractColumn;
-import se.jmkit.generatedata.column.Firstname;
-import se.jmkit.generatedata.column.Lastname;
+import org.jonasmkarlsson.generatedata.Generate;
+import org.jonasmkarlsson.generatedata.column.AbstractColumn;
+import org.jonasmkarlsson.generatedata.column.Firstname;
+import org.jonasmkarlsson.generatedata.column.Lastname;
 import se.jmkit.rest.common.constants.Constant;
 import se.jmkit.rest.common.controller.IController;
 import se.jmkit.rest.common.entity.JSONWrapperEntity;
@@ -92,8 +92,8 @@ public class PersonController extends AbstractController<Person> implements ICon
     @ResponseBody
     public List<Person> init(@PathVariable int count) {
         List<Person> persons = new ArrayList<Person>();
-        AbstractColumn[] firstnameColumn = { new Firstname() };
-        AbstractColumn[] lastnameColumn = { new Lastname() };
+        AbstractColumn[] firstnameColumn = { new Firstname("") };
+        AbstractColumn[] lastnameColumn = { new Lastname("") };
         String[] firstnames = Generate.list(firstnameColumn, count, "");
         String[] middlenames = Generate.list(firstnameColumn, count, "");
         String[] lastnames = Generate.list(lastnameColumn, count, "");

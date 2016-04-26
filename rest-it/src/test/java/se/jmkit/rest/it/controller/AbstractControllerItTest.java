@@ -5,10 +5,10 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import se.jmkit.generatedata.Generate;
-import se.jmkit.generatedata.column.AbstractColumn;
-import se.jmkit.generatedata.column.Firstname;
-import se.jmkit.generatedata.column.Lastname;
+import org.jonasmkarlsson.generatedata.Generate;
+import org.jonasmkarlsson.generatedata.column.AbstractColumn;
+import org.jonasmkarlsson.generatedata.column.Firstname;
+import org.jonasmkarlsson.generatedata.column.Lastname;
 import se.jmkit.rest.client.http.RestURIBuilder;
 import se.jmkit.rest.client.http.controller.PersonControllerClient;
 import se.jmkit.rest.client.http.controller.TeamControllerClient;
@@ -93,8 +93,8 @@ public abstract class AbstractControllerItTest {
     }
 
     private static Person[] generatePersons(int count) {
-        AbstractColumn[] firstnameColumn = { new Firstname() };
-        AbstractColumn[] lastnameColumn = { new Lastname() };
+        AbstractColumn[] firstnameColumn = { new Firstname("") };
+        AbstractColumn[] lastnameColumn = { new Lastname("") };
         Person[] persons = new Person[count];
         String firstnames[] = Generate.list(firstnameColumn, count, "");
         String middlenames[] = Generate.list(firstnameColumn, count, "");
@@ -107,7 +107,7 @@ public abstract class AbstractControllerItTest {
 
     private static Team[] generateTeams(int count) {
         Team[] teams = new Team[count];
-        AbstractColumn[] firstnameColumn = { new Firstname() };
+        AbstractColumn[] firstnameColumn = { new Firstname("") };
         String teamnames[] = Generate.list(firstnameColumn, count, "");
         for (int i = 0; i < count; i++) {
             teams[i] = new Team(new Long(i + 1), "Team " + teamnames[i]);

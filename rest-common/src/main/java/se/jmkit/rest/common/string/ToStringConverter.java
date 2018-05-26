@@ -31,6 +31,8 @@ public abstract class ToStringConverter {
         NO_PRINT.add("pcStateManager");
         NO_PRINT.add("pcDetachedState");
         NO_PRINT.add("pcStateManager");
+        NO_PRINT.add("$jacocoData");
+        NO_PRINT.add("$jacocoInit");
     }
 
     /**
